@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
 class SnapsView extends Component {
     render(){
         return (
-            <View style={{flex:1,backgroundColor:'blue'}}>
+            <View style={{flex:1,backgroundColor:'brown'}}>
                 <Text>Snaps View</Text>
             </View>
         )

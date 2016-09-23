@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
 class StoriesView extends Component {
     render(){
         return (
-            <View style={{flex:1,backgroundColor:'green'}}>
+            <View style={{flex:1,backgroundColor:'#7b4f9d'}}>
                 <Text>Stories View</Text>
             </View>
         )

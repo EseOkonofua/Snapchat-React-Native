@@ -3,24 +3,29 @@ import {
     StyleSheet,
     Text,
     View,
-    Navigator, TouchableOpacity
+    Navigator
 } from 'react-native';
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import CameraView from './CameraView';
+import Camera from 'react-native-camera'
+import CameraView from './CameraView'
+import StoriesView from './StoriesView'
+import SnapsView from './SnapsView'
+import BottomControls from '../components/BottomControls'
+
+
 
 const styles = StyleSheet.create({
-    container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-    }
+
 });
 
-export default class App extends Component {
+class App extends Component {
 
     constructor(props){
         super(props);
+        this.camera = null;
+        this.navigator = null;
 
         this.state = {
             routes:[
@@ -35,45 +40,73 @@ export default class App extends Component {
     render() {
 
         return (
-            <Navigator
-                style = {{ flex:1 }}
-                initialRoute = { this.state.routes[0] }
-                initialRouteStack = { this.state.routes }
-                renderScene = { this.renderScene.bind(this) }
 
-                configureScene = { (route, routeStack)=>{
-                    if(route.title === 'Camera View')
-                        return Navigator.SceneConfigs.VerticalDownSwipeJump
-                    else return Navigator.SceneConfigs.HorizontalSwipeJump
-                }}
-            />
+            <Camera
+                style = { {flex:1}}
+                ref={ (cam)=>{ this.camera = cam } }
+                aspect = { this.props.cameraState.aspect }
+                captureTarget = {this.props.cameraState.captureTarget}
+                orientation={ this.props.cameraState.orientation }
+                type={this.props.cameraState.type } >
+
+                <Navigator
+                    initialRoute = {this.state.routes[0]}
+                    initialRouteStack = {this.state.routes}
+                    renderScene = { this.renderScene.bind(this) }
+                    configureScene = { (route,routeStack) =>{
+                        switch(route.title){
+
+                            case 'Snaps View':
+                                return Navigator.SceneConfigs.HorizontalSwipeJumpFromRight
+                            case 'Stories View':
+                                return Navigator.SceneConfigs.HorizontalSwipeJump
+                        }
+                    } }
+                     />
+                     <BottomControls onGroupButtonClick = { ()=>{
+                         if(this.navigator){
+                            this.navigator.jumpTo(this.state.routes[2])
+                         }
+
+                     }}
+                     onChatButtonClick = { ()=>{
+                         if(this.navigator){
+                             this.navigator.jumpTo(this.state.routes[3])
+                         }
+                     }}/>
+
+
+
+            </Camera>
+
+
+
+
 
         );
     }
 
+
+
     renderScene(route, navigator){
-        var self = this;
+        this.navigator = navigator
         switch(route.title){
             case 'Camera View':
-                return (<CameraView navigator = {navigator}/>);
-            default:
-                return (
-                    <View style = {{ flex: 1, backgroundColor:'black'}}>
-                        <Text style={{color:'white'}}> { route.title }</Text>
-                        <TouchableOpacity onPress = {
-                            ()=>{
-
-                                if(route.index === 0) navigator.push(self.state.routes[1])
-                                else navigator.pop();
-                            }
-                        }>
-                            <Text style={{color:'white'}}>Navigate</Text>
-                        </TouchableOpacity>
-                    </View>
-                );
+                return (<CameraView navigator = {navigator}/>)
+            case 'Stories View':
+                return (<StoriesView navigator = {navigator}/>)
+            case 'Snaps View':
+                return (<SnapsView navigator = {navigator}/>)
         }
-
 
     }
 
 }
+
+function mapStateToProps(state){
+    return {
+        cameraState:state.camera
+    }
+}
+
+export default connect(mapStateToProps,null)(App)

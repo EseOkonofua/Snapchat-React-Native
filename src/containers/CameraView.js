@@ -3,7 +3,9 @@ import {
     View,
     Text,
     StyleSheet,
-    Dimensions
+    Dimensions,
+    ScrollView,
+    StatusBar
 } from 'react-native'
 import Camera from 'react-native-camera'
 var FAIcons = require('react-native-vector-icons/FontAwesome');
@@ -13,8 +15,7 @@ var MIcons = require('react-native-vector-icons/MaterialIcons');
 
 const styles = StyleSheet.create({
     cameraContainer:{
-        flex: 1,
-        justifyContent: 'flex-start'
+        flex:1
     },
     camera:{
         flex: 1,
@@ -25,9 +26,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         padding:15,
         // backgroundColor:'black'
-    },
-    bottomControlContainer:{
-        padding:15
     },
     topGroupIcons:{
         marginRight:20
@@ -49,42 +47,19 @@ var TopControls = ()=>{
 }
 
 
-var BottomControls = ()=>{
-    return(
-        <View style={styles.bottomControlContainer}>
-            <FAIcons name='circle-thin' size={100} color='white' style={{textAlign:'center'}}/>
-            <View style={{justifyContent:'space-between',flexDirection:'row', marginTop:10}}>
-                <MIcons name = 'chat-bubble' size={40} color='white'/>
-                <FAIcons name='circle-thin' size={40} color='white'/>
-                <MIcons name = 'group-work' size={40} color='white'/>
 
-            </View>
-        </View>
-    )
-}
 
 export default class CameraView extends Component {
     constructor(props){
         super(props);
 
-        this.camera = null;
     }
 
     render(){
         return (
             <View style = {styles.cameraContainer}>
-                <Camera
-                    style = { styles.camera }
-                    ref={ (cam)=>{ this.camera = cam } }
-                    aspect = { Camera.constants.Aspect.fill }
-                    captureTarget = {Camera.constants.CaptureTarget.cameraRoll}
-                    orientation={ Camera.constants.Orientation.auto }
-                    type={Camera.constants.Type.front } >
-                    <TopControls/>
-                    <BottomControls/>
-
-                </Camera>
-
+                <StatusBar hidden = {true}/>
+                <Text>Camera Container</Text>
             </View>
         );
     }

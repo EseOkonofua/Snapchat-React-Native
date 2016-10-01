@@ -73,6 +73,12 @@ class App extends Component {
                          if(this.navigator){
                              this.navigator.jumpTo(this.state.routes[3])
                          }
+                     }}
+
+                     onCameraButtonClick = { ()=>{
+                         if(this.navigator){
+                             this.navigator.jumpTo(this.state.routes[0])
+                         }
                      }}/>
 
 

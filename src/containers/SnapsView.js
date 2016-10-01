@@ -22,4 +22,5 @@ class SnapsView extends Component {
     }
 }
 
+
 export default SnapsView

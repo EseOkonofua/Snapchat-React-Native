@@ -22,7 +22,9 @@ export default class BottomControls extends Component{
     render(){
         return(
             <View style={styles.bottomControlContainer}>
-                <FAIcons name='circle-thin' size={100} color='white' style={{textAlign:'center'}}/>
+                <TouchableWithoutFeedback onPress = { this.props.onCameraButtonClick }>
+                    <FAIcons name='circle-thin' size={100} color='white' style={{textAlign:'center'}}/>
+                </TouchableWithoutFeedback>
                 <View style={{justifyContent:'space-between',flexDirection:'row', marginTop:10}}>
                     <TouchableWithoutFeedback onPress = { this.props.onChatButtonClick }>
                         <MIcons name = 'chat-bubble' size={40} color='white'/>
